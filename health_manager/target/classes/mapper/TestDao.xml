@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.yuan.dao.TestDao">
+
+    <resultMap type="priv.yuan.entity.Test" id="TestMap">
+        <result property="testId" column="test_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="data" column="data" jdbcType="TIMESTAMP"/>
+        <result property="sbp" column="sbp" jdbcType="NUMERIC"/>
+        <result property="dpb" column="dpb" jdbcType="NUMERIC"/>
+        <result property="bmi" column="bmi" jdbcType="NUMERIC"/>
+        <result property="whr" column="whr" jdbcType="NUMERIC"/>
+        <result property="bun" column="bun" jdbcType="NUMERIC"/>
+        <result property="ua" column="ua" jdbcType="NUMERIC"/>
+        <result property="crea" column="crea" jdbcType="NUMERIC"/>
+        <result property="tg" column="tg" jdbcType="NUMERIC"/>
+        <result property="chol" column="chol" jdbcType="NUMERIC"/>
+        <result property="glu" column="glu" jdbcType="NUMERIC"/>
+        <result property="hcy" column="hcy" jdbcType="NUMERIC"/>
+        <result property="malb" column="m_alb" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TestMap">
+        select
+          *
+        from health_manager.test
+        where test_id = #{testId}
+    </select>
+
+
+
+    <select id="queryByuserId" resultMap="TestMap">
+        select
+          *
+        from health_manager.test
+        where user_id = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TestMap">
+        select
+          *
+        from health_manager.test
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="selectAll" resultMap="TestMap">
+        select *
+        from health_manager.test
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TestMap">
+        select
+          *
+        from health_manager.test
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="testId" useGeneratedKeys="true">
+        insert into health_manager.test(user_id, data, sbp, dpb, bmi, whr, bun, ua, crea, tg, chol, glu, hcy, m_alb)
+        values (#{userId}, #{data}, #{sbp}, #{dpb}, #{bmi}, #{whr}, #{bun}, #{ua}, #{crea}, #{tg}, #{chol}, #{glu}, #{hcy}, #{malb})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update health_manager.test
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="data != null">
+                data = #{data},
+            </if>
+            <if test="sbp != null">
+                sbp = #{sbp},
+            </if>
+            <if test="dpb != null">
+                dpb = #{dpb},
+            </if>
+            <if test="bmi != null">
+                bmi = #{bmi},
+            </if>
+            <if test="whr != null">
+                whr = #{whr},
+            </if>
+            <if test="bun != null">
+                bun = #{bun},
+            </if>
+            <if test="ua != null">
+                ua = #{ua},
+            </if>
+            <if test="crea != null">
+                crea = #{crea},
+            </if>
+            <if test="tg != null">
+                tg = #{tg},
+            </if>
+            <if test="chol != null">
+                chol = #{chol},
+            </if>
+            <if test="glu != null">
+                glu = #{glu},
+            </if>
+            <if test="hcy != null">
+                hcy = #{hcy},
+            </if>
+            <if test="malb != null">
+                m_alb = #{malb},
+            </if>
+        </set>
+        where test_id = #{testId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from health_manager.test where test_id = #{testId}
+    </delete>
+
+    <select id="queryByUserId" resultMap="TestMap">
+        select *
+        from health_manager.test
+        where
+        user_id = #{userId}
+    </select>
+</mapper>

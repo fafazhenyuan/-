@@ -1,0 +1,43 @@
+POST http://localhost:8080/health_manager/user/alt
+Content-Type: application/x-www-form-urlencoded
+
+phone=ppp&adress=ss&email=77
+
+###
+
+POST http://localhost:8080/health_manager/user/alt
+Content-Type: application/x-www-form-urlencoded
+
+phone=ppp&adress=ss&email=77
+
+###
+
+POST http://localhost:8080/health_manager/user/alt
+Content-Type: application/x-www-form-urlencoded
+
+phone=ppp&address=ss&email=77
+
+<> 2020-05-10T095555.400.html
+
+###
+
+POST http://localhost:8080/health_manager/user/alt
+Content-Type: application/json
+
+{
+  "phone": "ppp",
+  "adress": "ppp",
+  "email": "ppp"
+}
+
+<> 2020-05-10T095357.400.html
+
+###
+
+POST http://localhost:8080/health_manager/user/alt
+Content-Type: application/json
+
+<> 2020-05-10T095121.400.html
+
+###
+

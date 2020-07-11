@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.yuan.dao.ManagerDao">
+
+    <resultMap type="priv.yuan.entity.Manager" id="ManagerMap">
+        <result property="managerId" column="manager_id" jdbcType="INTEGER"/>
+        <result property="managerName" column="manager_name" jdbcType="VARCHAR"/>
+        <result property="managerPasswd" column="manager_passwd" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ManagerMap">
+        select
+          manager_id, manager_name, manager_passwd
+        from health_manager.manager
+        where manager_id = #{managerId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ManagerMap">
+        select
+          manager_id, manager_name, manager_passwd
+        from health_manager.manager
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ManagerMap">
+        select
+          manager_id, manager_name, manager_passwd
+        from health_manager.manager
+        <where>
+            <if test="managerId != null">
+                and manager_id = #{managerId}
+            </if>
+            <if test="managerName != null and managerName != ''">
+                and manager_name = #{managerName}
+            </if>
+            <if test="managerPasswd != null and managerPasswd != ''">
+                and manager_passwd = #{managerPasswd}
+            </if>
+        </where>
+    </select>
+    <select id="queryByName" resultType="priv.yuan.entity.Manager">
+        select * from health_manager.manager
+        where manager_name = #{managerName}
+    </select>
+
+    <select id="selectAll" resultType="priv.yuan.entity.Manager">
+        select *
+        from health_manager.manager
+    </select>
+
+    <!--新增所有列-->
+
+    <insert id="insert" keyProperty="managerId" useGeneratedKeys="true">
+<!--        update health_manager.manager-->
+<!--        <set>-->
+<!--            <if test="managerName != null and managerName != ''">-->
+<!--                manager_name = #{managerName},-->
+<!--            </if>-->
+<!--            <if test="managerPasswd != null and managerPasswd != ''">-->
+<!--                manager_passwd = #{managerPasswd},-->
+<!--            </if>-->
+<!--        </set>-->
+        insert into health_manager.manager(manager_name, manager_passwd)
+        values (#{managerName}, #{managerPasswd})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update health_manager.manager
+        <set>
+            <if test="managerName != null and managerName != ''">
+                manager_name = #{managerName},
+            </if>
+            <if test="managerPasswd != null and managerPasswd != ''">
+                manager_passwd = #{managerPasswd},
+            </if>
+        </set>
+        where manager_id = #{managerId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from health_manager.manager where manager_id = #{managerId}
+    </delete>
+
+</mapper>

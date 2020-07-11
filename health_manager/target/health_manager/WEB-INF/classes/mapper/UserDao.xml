@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.yuan.dao.UserDao">
+
+    <resultMap type="priv.yuan.entity.User" id="UserMap">
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="userPasswd" column="user_passwd" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="OTHER"/>
+        <result property="gender" column="gender" jdbcType="OTHER"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="realName" column="realname" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="adress" column="adress" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+
+    <select id="selectAll" resultMap="UserMap">
+        select *
+        from health_manager.user
+    </select>
+
+    <select id="queryByName" parameterType="string"  resultMap="UserMap">
+        select
+            user_id, user_name, user_passwd, age, gender, email, phone, adress,realname
+        from health_manager.user
+        where user_name = #{userName}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserMap">
+        select
+          user_id, user_name, user_passwd, age, gender, email, phone, adress,realname
+        from health_manager.user
+        where user_id = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserMap">
+        select
+          user_id, user_name, user_passwd, age, gender, email, phone, adress,realname
+        from health_manager.user
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="queryAll" resultMap="UserMap">
+        select
+          *
+        from health_manager.user
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName}
+            </if>
+            <if test="userPasswd != null and userPasswd != ''">
+                user_passwd = #{userPasswd}
+            </if>
+            <if test="age != null">
+                age = #{age}
+            </if>
+            <if test="gender != null">
+                gender = #{gender}
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email}
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone}
+            </if>
+            <if test="adress != null and adress != ''">
+                adress = #{adress}
+            </if>
+            <if test="realName != null and realName != ''">
+                realname = #{realName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
+        insert into health_manager.user(user_name, user_passwd, age, gender, email, phone, adress,realname)
+        values (#{userName}, #{userPasswd}, #{age}, #{gender}, #{email}, #{phone}, #{adress},#{realName})
+    </insert>
+
+
+    <update id="altPwd">
+        update health_manager.user
+        <set>
+            <if test="userPasswd != null and userPasswd != ''">
+                user_passwd = #{userPasswd},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+
+
+    <update id="altInf">
+        update health_manager.user
+        <set>
+            <if test="adress != null and adress != ''">
+                adress = #{adress},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+
+    <update id="update">
+        update health_manager.user
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="userPasswd != null and userPasswd != ''">
+                user_passwd = #{userPasswd},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="adress != null and adress != ''">
+                adress = #{adress},
+            </if>
+            <if test="realName != null and realName != ''">
+                realname = #{realName}
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from health_manager.user where user_id = #{userId}
+    </delete>
+
+</mapper>

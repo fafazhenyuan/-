@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.yuan.dao.FoodDao">
+
+    <resultMap type="priv.yuan.entity.Food" id="FoodMap">
+        <result property="foodId" column="food_id" jdbcType="INTEGER"/>
+        <result property="foodName" column="food_name" jdbcType="VARCHAR"/>
+        <result property="heat" column="heat" jdbcType="NUMERIC"/>
+        <result property="carbohydrate" column="carbohydrate" jdbcType="NUMERIC"/>
+        <result property="fat" column="fat" jdbcType="NUMERIC"/>
+        <result property="fiber" column="fiber" jdbcType="NUMERIC"/>
+        <result property="protein" column="protein" jdbcType="NUMERIC"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <select id="selectAll" resultMap="FoodMap">
+        select *
+        from health_manager.food
+    </select>
+
+    <select id="queryByType" resultMap="FoodMap">
+        select *
+        from health_manager.food
+        where type = #{type}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="FoodMap">
+        select
+          food_id, food_name, heat, carbohydrate, fat, fiber, protein, type
+        from health_manager.food
+        where food_id = #{foodId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="FoodMap">
+        select
+          food_id, food_name, heat, carbohydrate, fat, fiber, protein, type
+        from health_manager.food
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="FoodMap">
+        select
+          food_id, food_name, heat, carbohydrate, fat, fiber, protein, type
+        from health_manager.food
+        <where>
+            <if test="foodId != null">
+                and food_id = #{foodId}
+            </if>
+            <if test="foodName != null and foodName != ''">
+                and food_name = #{foodName}
+            </if>
+            <if test="heat != null">
+                and heat = #{heat}
+            </if>
+            <if test="carbohydrate != null">
+                and carbohydrate = #{carbohydrate}
+            </if>
+            <if test="fat != null">
+                and fat = #{fat}
+            </if>
+            <if test="fiber != null">
+                and fiber = #{fiber}
+            </if>
+            <if test="protein != null">
+                and protein = #{protein}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="foodId" useGeneratedKeys="true">
+        insert into health_manager.food(food_name, heat, carbohydrate, fat, fiber, protein, type)
+        values (#{foodName}, #{heat}, #{carbohydrate}, #{fat}, #{fiber}, #{protein}, #{type})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update health_manager.food
+        <set>
+            <if test="foodName != null and foodName != ''">
+                food_name = #{foodName},
+            </if>
+            <if test="heat != null">
+                heat = #{heat},
+            </if>
+            <if test="carbohydrate != null">
+                carbohydrate = #{carbohydrate},
+            </if>
+            <if test="fat != null">
+                fat = #{fat},
+            </if>
+            <if test="fiber != null">
+                fiber = #{fiber},
+            </if>
+            <if test="protein != null">
+                protein = #{protein},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+        </set>
+        where food_id = #{foodId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from health_manager.food where food_id = #{foodId}
+    </delete>
+
+</mapper>

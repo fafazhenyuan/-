@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.yuan.dao.LogDao">
+
+    <resultMap type="priv.yuan.entity.Log" id="LogMap">
+        <result property="logId" column="log_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="logData" column="log_data" jdbcType="DATE"/>
+        <result property="text" column="text" jdbcType="VARCHAR"/>
+        <result property="sleephour" column="sleephour" jdbcType="NUMERIC"/>
+        <result property="mood" column="mood" jdbcType="VARCHAR"/>
+        <result property="cigrette" column="cigrette" jdbcType="OTHER"/>
+        <result property="weight" column="weight" jdbcType="NUMERIC"/>
+        <result property="pressure" column="pressure" jdbcType="VARCHAR"/>
+        <result property="bphigh" column="bphigh" jdbcType="NUMERIC"/>
+        <result property="bplow" column="bplow" jdbcType="NUMERIC"/>
+        <result property="bs" column="bs" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <select id="seleLog" resultMap="LogMap">
+        select
+        *
+        from health_manager.log
+        where
+             user_id = #{userId} and log_data = #{logData,jdbcType=DATE}
+    </select>
+
+    <select id="queryById" resultMap="LogMap">
+        select
+          log_id, user_id, log_data, text, sleephour, mood, cigrette, weight, pressure, bphigh, bplow, bs
+        from health_manager.log
+        where log_id =#{logId}
+    </select>
+
+    <select id="queryAllByLimit" resultMap="LogMap">
+        select
+          log_id, user_id, log_data, text, sleephour, mood, cigrette, weight, pressure, bphigh, bplow, bs
+        from health_manager.log
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="queryAll" resultMap="LogMap">
+        select
+          log_id, user_id, log_data, text, sleephour, mood, cigrette, weight, pressure, bphigh, bplow, bs
+        from health_manager.log
+        <where>
+            <if test="logId != null">
+                and log_id = #{logId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="logData != null">
+                and log_data = #{logData}
+            </if>
+            <if test="text != null and text != ''">
+                and text = #{text}
+            </if>
+            <if test="sleephour != null">
+                and sleephour = #{sleephour}
+            </if>
+            <if test="mood != null and mood != ''">
+                and mood = #{mood}
+            </if>
+            <if test="cigrette != null and cigrette != ''">
+                and cigrette = #{cigrette}
+            </if>
+            <if test="weight != null">
+                and weight = #{weight}
+            </if>
+            <if test="pressure != null and pressure != ''">
+                and pressure = #{pressure}
+            </if>
+            <if test="bphigh != null and bphigh != ''">
+                and bphigh = #{bphigh}
+            </if>
+            <if test="bplow != null and bplow != ''">
+                and bplow = #{bplow}
+            </if>
+            <if test="bs != null and bs != ''">
+                and bs = #{bs}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" keyProperty="logId" useGeneratedKeys="true">
+        insert into health_manager.log(user_id, log_data, text, sleephour, mood, cigrette, weight, pressure, bphigh, bplow, bs)
+        values (#{userId}, #{logData}, #{text}, #{sleephour}, #{mood}, #{cigrette}, #{weight}, #{pressure}, #{bphigh}, #{bplow}, #{bs})
+    </insert>
+
+    <insert id="addLog">
+        insert into health_manager.log(user_id, log_data, text, sleephour, mood, cigrette, weight, pressure, bphigh, bplow, bs)
+        values (#{userId}, #{logData}, #{text}, #{sleephour}, #{mood}, #{cigrette}, #{weight}, #{pressure}, #{bphigh}, #{bplow}, #{bs})
+
+    </insert>
+
+    <update id="update">
+        update health_manager.log
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="logData != null">
+                log_data = #{logData},
+            </if>
+            <if test="text != null and text != ''">
+                text = #{text},
+            </if>
+            <if test="sleephour != null">
+                sleephour = #{sleephour},
+            </if>
+            <if test="mood != null and mood != ''">
+                mood = #{mood},
+            </if>
+            <if test="cigrette != null and cigrette != ''">
+                cigrette = #{cigrette},
+            </if>
+            <if test="weight != null">
+                weight = #{weight},
+            </if>
+            <if test="pressure != null and pressure != ''">
+                pressure = #{pressure},
+            </if>
+            <if test="bphigh != null and bphigh != ''">
+                bphigh = #{bphigh},
+            </if>
+            <if test="bplow != null and bplow != ''">
+                bplow = #{bplow},
+            </if>
+            <if test="bs != null and bs != ''">
+                bs = #{bs},
+            </if>
+        </set>
+        where log_id = #{logId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from health_manager.log where log_id = #{logId}
+    </delete>
+
+</mapper>
